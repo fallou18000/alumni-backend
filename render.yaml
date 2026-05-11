@@ -1,6 +1,7 @@
 services:
   - type: web
     name: alumni-backend
-    env: php
+    runtime: docker
+    plan: free
     buildCommand: composer install
-    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
+    startCommand: php artisan serve --host=0.0.0.0 --port=8000
