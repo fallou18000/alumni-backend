@@ -13,7 +13,7 @@ use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\UfrController;
 use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\ResponsableController;
-use App\Models\Ufr;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -218,4 +218,10 @@ Route::get('/db-test', function () {
 
 Route::get('/test-ufr', function () {
     dd(class_exists(\App\Models\Ufr::class));
+});
+
+
+
+Route::get('/ufrs', function () {
+    return DB::table('ufrs')->get();
 });
