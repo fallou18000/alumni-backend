@@ -122,7 +122,14 @@ Route::middleware('auth:sanctum')->get('/test', function () {
 
 
 Route::get('/ufrs', function () {
-    return \App\Models\Ufr::all();
+    try {
+        return \App\Models\Ufr::all();
+    } catch (\Throwable $e) {
+        return [
+            'message' => $e->getMessage(),
+            'trace' => $e->getTraceAsString(),
+        ];
+    }
 });
 
 Route::get('/departements-by-ufr/{id}', function ($id) {
