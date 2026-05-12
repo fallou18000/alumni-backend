@@ -209,3 +209,7 @@ Route::middleware(['auth:sanctum'])->prefix('responsable')->group(function () {
     Route::get('/export', [ResponsableController::class, 'export']);
 
 });
+
+Route::get('/db-test', function () {
+    return DB::table('users')->get();
+});
