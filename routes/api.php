@@ -122,7 +122,7 @@ Route::middleware('auth:sanctum')->get('/test', function () {
 
 
 Route::get('/ufrs', function () {
-    return Ufr::all();
+    return \App\Models\Ufr::all();
 });
 
 Route::get('/departements-by-ufr/{id}', function ($id) {
