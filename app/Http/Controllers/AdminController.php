@@ -217,32 +217,22 @@ public function importAlumni(Request $request)
     | 👥 LIST USERS
     |--------------------------------------------------------------------------
     */
-   public function index(Request $request)
+public function index(Request $request)
 {
-    $query = User::with(['profile', 'ufr', 'departement', 'filiere']);
+    $users = User::select(
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'role_id',
+        'status',
+        'created_at'
+    )
+    ->latest()
+    ->get();
 
-    // 🔍 FILTRE POSTE
-    if ($request->job_title) {
-        $query->whereHas('profile', function ($q) use ($request) {
-            $q->where('job_title', 'like', '%' . $request->job_title . '%');
-        });
-    }
-
-    // 🔍 FILTRE FILIERE
-    if ($request->filiere_id) {
-        $query->where('filiere_id', $request->filiere_id);
-    }
-
-    // 🔍 FILTRE STATUS
-    if ($request->status) {
-        $query->where('status', $request->status);
-    }
-
-    return response()->json(
-        $query->latest()->paginate(10)
-    );
+    return response()->json($users);
 }
-
 
 
 public function exportUsers(Request $request)
