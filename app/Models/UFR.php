@@ -14,9 +14,15 @@ class Ufr extends Model
     protected $fillable = [
         'nom'
     ];
+    
+      public static function boot()
+    {
+        parent::boot();
+    }
 
     public function departements()
     {
         return $this->hasMany(Departement::class);
     }
+
 }
