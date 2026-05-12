@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\UFR; 
+use App\Models\Ufr; 
 
 class UfrController extends Controller
 {
