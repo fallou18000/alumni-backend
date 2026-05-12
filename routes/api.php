@@ -13,7 +13,7 @@ use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\UfrController;
 use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\ResponsableController;
-
+use App\Models\Ufr;
 
 
 
@@ -119,8 +119,10 @@ Route::middleware('auth:sanctum')->get('/test', function () {
     return auth()->user();
 });
 
+
+
 Route::get('/ufrs', function () {
-    return \App\Models\Ufr::all();
+    return Ufr::all();
 });
 
 Route::get('/departements-by-ufr/{id}', function ($id) {
