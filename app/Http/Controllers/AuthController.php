@@ -26,27 +26,14 @@ class AuthController extends Controller
 
     $user = User::where('email', $request->email)->first();
 
-    dd([
+    return response()->json([
         'request_email' => $request->email,
         'request_password' => $request->password,
         'user_found' => $user ? true : false,
         'db_email' => $user?->email,
-        'db_password_hash' => $user?->password,
-        'hash_check' => $user ? Hash::check($request->password, $user->password) : false,
-    ]);
-
-    if (!$user || !Hash::check($request->password, $user->password)) {
-        return response()->json([
-            'message' => 'Identifiants invalides'
-        ], 401);
-    }
-
-    $token = $user->createToken('auth_token')->plainTextToken;
-
-    return response()->json([
-        'message' => 'Login réussi',
-        'user' => $user,
-        'token' => $token
+        'hash_check' => $user
+            ? Hash::check($request->password, $user->password)
+            : false,
     ]);
 }
 
