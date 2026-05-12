@@ -215,3 +215,7 @@ Route::middleware(['auth:sanctum'])->prefix('responsable')->group(function () {
 Route::get('/db-test', function () {
     return DB::table('users')->get();
 });
+
+Route::get('/test-ufr', function () {
+    dd(class_exists(\App\Models\Ufr::class));
+});
