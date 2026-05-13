@@ -150,15 +150,15 @@ public function setPassword(Request $request)
             'password' => 'required|confirmed|min:6',
         ]);
 
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password),
-                    'must_change_password' => false
-                ])->save();
-            }
-        );
+       $status = Password::reset(
+    $request->only('email', 'password', 'token'),
+    function ($user, $password) {
+        $user->forceFill([
+            'password' => Hash::make($password),
+            'must_change_password' => false
+        ])->save();
+    }
+);
 
         if ($status === Password::PASSWORD_RESET) {
             return response()->json(['message' => 'Mot de passe réinitialisé avec succès']);
