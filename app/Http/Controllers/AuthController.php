@@ -117,6 +117,28 @@ public function login(Request $request)
     ]);
 }
 
+public function setPassword(Request $request)
+{
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|confirmed|min:6',
+    ]);
+
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function ($user, $password) {
+            $user->forceFill([
+                'password' => Hash::make($password),
+                'must_change_password' => false
+            ])->save();
+        }
+    );
+
+    return $status === Password::PASSWORD_RESET
+        ? response()->json(['message' => 'Mot de passe créé avec succès'])
+        : response()->json(['message' => 'Lien invalide ou expiré'], 400);
+}
     /**
      * RESET PASSWORD
      */

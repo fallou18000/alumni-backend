@@ -257,3 +257,5 @@ Route::get('/test-mail', function () {
         "<h1>Hello depuis Laravel + Brevo API</h1>"
     );
 });
+
+Route::post('/set-password', [AuthController::class, 'setPassword']);
