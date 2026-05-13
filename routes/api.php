@@ -235,11 +235,17 @@ Route::get('/ufrs', function () {
 
 use Illuminate\Support\Facades\Mail;
 
-Route::get('/test-mail', function () {
-    Mail::raw('Test Brevo SMTP OK', function ($message) {
-        $message->to('serignefallouthioune260@gmail.com')
-            ->subject('Test email');
-    });
 
-    return 'Mail envoyé';
+
+Route::get('/test-mail', function () {
+    try {
+        Mail::raw('Test Brevo SMTP OK', function ($message) {
+            $message->to('serignefallouthioune260@gmail.com')
+                ->subject('Test email');
+        });
+
+        return 'Mail envoyé';
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
 });
