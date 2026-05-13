@@ -256,3 +256,13 @@ Route::get('/test-mail', function () {
         ], 500);
     }
 });
+
+Route::get('/debug-mail', function () {
+    return [
+        'default' => config('mail.default'),
+        'mailer' => env('MAIL_MAILER'),
+        'host' => config('mail.mailers.smtp.host'),
+        'port' => config('mail.mailers.smtp.port'),
+        'username' => config('mail.mailers.smtp.username'),
+    ];
+});
