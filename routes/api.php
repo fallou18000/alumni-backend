@@ -232,3 +232,14 @@ Route::get('/test-ufr', function () {
 Route::get('/ufrs', function () {
     return DB::table('ufrs')->get();
 });
+
+use Illuminate\Support\Facades\Mail;
+
+Route::get('/test-mail', function () {
+    Mail::raw('Test Brevo SMTP OK', function ($message) {
+        $message->to('serignefallouthioune260@gmail.com')
+            ->subject('Test email');
+    });
+
+    return 'Mail envoyé';
+});
