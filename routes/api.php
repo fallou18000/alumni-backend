@@ -236,11 +236,23 @@ Route::get('/ufrs', function () {
 use Illuminate\Support\Facades\Mail;
 
 
-Route::get('/test-mail', function () {
-    Mail::raw('Test Brevo SMTP OK', function ($message) {
-        $message->to('serignefallouthioune260@gmail.com')
-            ->subject('Test email');
-    });
 
-    dd('Mail exécuté');
+
+Route::get('/test-mail', function () {
+    try {
+        Mail::raw('Test Brevo SMTP OK', function ($message) {
+            $message->to('serignefallouthioune260@gmail.com')
+                ->subject('Test email');
+        });
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Mail envoyé'
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
 });
