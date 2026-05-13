@@ -544,14 +544,9 @@ public function createUser(Request $request)
         . "/set-password?token={$token}&email=" . urlencode($user->email);
 
     // 3. EMAIL UNIQUE SYSTEM
-   try {
     Mail::to($user->email)->send(
         new \App\Mail\AlumniWelcomeMail($user, $url)
     );
-} catch (\Exception $e) {
-    \Log::error("MAIL ERROR: " . $e->getMessage());
-    dd($e->getMessage());
-}
 
     return response()->json([
         'message' => 'Utilisateur créé + lien envoyé',
