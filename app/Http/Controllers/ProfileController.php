@@ -44,7 +44,7 @@ public function updateProfile(Request $request)
         'degree_level' => 'nullable|string',
         'status' => 'nullable|string',
         'job_title' => 'nullable|string',
-        'filiere_id' => 'required|exists:filieres,id',
+        // 'filiere_id' => 'required|exists:filieres,id',
         'promotion' => 'nullable|string',
         'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
     ]);
