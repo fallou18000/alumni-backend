@@ -238,25 +238,6 @@ use Illuminate\Support\Facades\Mail;
 
 
 
-Route::get('/test-mail', function () {
-    try {
-        Mail::raw('Test Brevo SMTP OK', function ($message) {
-            $message->to('serignefallouthioune260@gmail.com')
-                ->subject('Test email');
-        });
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Mail envoyé'
-        ]);
-    } catch (\Throwable $e) {
-        return response()->json([
-            'status' => 'error',
-            'message' => $e->getMessage(),
-        ], 500);
-    }
-});
-
 Route::get('/debug-mail', function () {
     return [
         'default' => config('mail.default'),
@@ -265,4 +246,14 @@ Route::get('/debug-mail', function () {
         'port' => config('mail.mailers.smtp.port'),
         'username' => config('mail.mailers.smtp.username'),
     ];
+});
+
+use App\Services\BrevoService;
+
+Route::get('/test-mail', function () {
+    return BrevoService::sendMail(
+        "serignefallouthioune260@gmail.com",
+        "Test Brevo API",
+        "<h1>Hello depuis Laravel + Brevo API</h1>"
+    );
 });
