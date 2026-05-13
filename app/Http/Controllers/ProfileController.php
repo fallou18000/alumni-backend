@@ -13,6 +13,12 @@ public function getProfile(Request $request)
 {
     $user = $request->user();
 
+    if (!$user) {
+        return response()->json([
+            'message' => 'Unauthenticated'
+        ], 401);
+    }
+
     $user->load([
         'ufr',
         'departement',
