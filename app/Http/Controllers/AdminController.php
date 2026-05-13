@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AlumniWelcomeMail;
 use Carbon\Carbon;
+use App\Services\BrevoService;
 use Illuminate\Support\Facades\Password;
 class AdminController extends Controller
 {
@@ -198,9 +199,13 @@ public function importAlumni(Request $request)
         $url = config('app.frontend_url')
             . "/set-password?token={$token}&email=" . urlencode($user->email);
 
-        Mail::to($user->email)->send(
-            new \App\Mail\AlumniWelcomeMail($user, $url)
-        );
+  BrevoService::send(
+    $user->email,
+    "Bienvenue Alumni System",
+    "<h1>Bonjour {$user->first_name}</h1>
+     <p>Votre compte a été importé.</p>
+     <a href='{$url}'>Définir votre mot de passe</a>"
+);
 
         $created++;
     }
@@ -492,9 +497,13 @@ public function approve($id)
     $resetUrl = config('app.frontend_url') . "/reset-password?token=" . $token . "&email=" . urlencode($user->email);
 
     // 4. Envoyer email avec lien
-    Mail::to($user->email)->send(
-        new \App\Mail\AlumniWelcomeMail($user, $resetUrl)
-    );
+   BrevoService::send(
+    $user->email,
+    "Compte validé",
+    "<h1>Bonjour {$user->first_name}</h1>
+     <p>Votre compte a été validé.</p>
+     <a href='{$resetUrl}'>Créer votre mot de passe</a>"
+);
 
     return response()->json([
         'message' => 'Utilisateur validé, lien envoyé par email'
@@ -544,9 +553,13 @@ public function createUser(Request $request)
         . "/set-password?token={$token}&email=" . urlencode($user->email);
 
     // 3. EMAIL UNIQUE SYSTEM
-    Mail::to($user->email)->send(
-        new \App\Mail\AlumniWelcomeMail($user, $url)
-    );
+    BrevoService::send(
+    $user->email,
+    "Bienvenue sur Alumni System",
+    "<h1>Bienvenue {$user->first_name}</h1>
+     <p>Votre compte a été créé.</p>
+     <a href='{$url}'>Définir votre mot de passe</a>"
+);
 
     return response()->json([
         'message' => 'Utilisateur créé + lien envoyé',

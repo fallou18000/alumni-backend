@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Password;
 use App\Mail\AlumniWelcomeMail;
 use App\Mail\ResetPasswordMail;
-
+use App\Services\BrevoService;
 class AuthController extends Controller
 {
     /**
@@ -104,7 +104,13 @@ public function login(Request $request)
 
     $resetUrl = $frontendUrl . "/reset-password?token=" . $token . "&email=" . urlencode($user->email);
 
-    Mail::to($user->email)->send(new ResetPasswordMail($resetUrl));
+    BrevoService::send(
+    $user->email,
+    "Réinitialisation de mot de passe",
+    "<h1>Réinitialisation</h1>
+     <p>Clique sur le lien ci-dessous :</p>
+     <a href='{$resetUrl}'>Reset Password</a>"
+);
 
     return response()->json([
         'message' => 'Lien de réinitialisation envoyé'
