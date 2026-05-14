@@ -60,7 +60,22 @@ public function register(Request $request)
 
     ]);
 
-    Mail::to('sfallou.thioune@univ-thies.sn')->send(new NewAlumniPendingMail($user));
+    BrevoService::send(
+    'sfallou.thioune@univ-thies.sn',
+    'Nouvelle demande Alumni',
+    "
+    <h2>Nouvelle demande d'inscription</h2>
+
+    <p>Un nouvel alumni vient de s'inscrire.</p>
+
+    <ul>
+        <li><strong>Nom :</strong> {$user->first_name} {$user->last_name}</li>
+        <li><strong>Email :</strong> {$user->email}</li>
+    </ul>
+
+    <p>Connectez-vous à la plateforme pour valider la demande.</p>
+    "
+);
 
     return response()->json([
         'message' => 'Demande envoyée. En attente de validation admin.',
